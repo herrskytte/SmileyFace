@@ -14,7 +14,7 @@ import no.skytte.smileyface.storage.DummyContent;
 
 /**
  * A fragment representing a single Inspection detail screen.
- * This fragment is either contained in a {@link InspectionListActivity}
+ * This fragment is either contained in a {@link MainActivity}
  * in two-pane mode (on tablets) or a {@link InspectionDetailActivity}
  * on handsets.
  */

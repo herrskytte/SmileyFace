@@ -18,6 +18,7 @@ import java.util.List;
 
 import no.skytte.smileyface.R;
 import no.skytte.smileyface.storage.DummyContent;
+import no.skytte.smileyface.sync.SyncDataIntentService;
 
 /**
  * An activity representing a list of Inspections. This activity
@@ -27,7 +28,7 @@ import no.skytte.smileyface.storage.DummyContent;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class InspectionListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -38,6 +39,9 @@ public class InspectionListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SyncDataIntentService.startFullSync(this);
+
         setContentView(R.layout.activity_inspection_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
