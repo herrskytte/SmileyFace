@@ -4,4 +4,7 @@
     <dimen name="app_bar_height">200dp</dimen>
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="detail_card_elevation">6dp</dimen>
 </resources>
