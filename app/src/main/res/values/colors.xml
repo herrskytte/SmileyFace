@@ -5,4 +5,12 @@
     <color name="colorAccent">#FFD740</color>
     <color name="colorAccentDarker">#FFC400</color>
     <color name="colorAccentLighter">#FFE57F</color>
+
+
+    <!-- fonts -->
+    <color name="default_text_color">#212121</color>
+    <color name="secondary_text_color">#707070</color>
+    <color name="inverse_text_color">#ffffff</color>
+    <color name="disabled_text_color">#40000000</color>
+    <color name="invalid_text_color">#E60000</color>
 </resources>

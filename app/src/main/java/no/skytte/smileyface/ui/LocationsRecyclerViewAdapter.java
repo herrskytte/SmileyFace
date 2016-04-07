@@ -1,23 +1,31 @@
 package no.skytte.smileyface.ui;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
-import no.skytte.smileyface.ui.LocationsListFragment.OnListFragmentInteractionListener;
-import no.skytte.smileyface.ui.dummy.DummyContent.DummyItem;
+import no.skytte.smileyface.Utilities;
+import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
+import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
+import no.skytte.smileyface.ui.LocationsListFragment.InteractionListener;
 
 public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<LocationsRecyclerViewAdapter.ViewHolder> {
 
-    private final OnListFragmentInteractionListener mListener;
+    private final InteractionListener mListener;
     private Cursor mCursor;
+    private Context mContext;
 
-    public LocationsRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public LocationsRecyclerViewAdapter(Context context, InteractionListener listener) {
         mListener = listener;
+        mContext = context;
     }
 
     @Override
@@ -30,20 +38,31 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-//        holder.mItem = mValues.get(position);
-//        holder.mIdView.setText(mValues.get(position).id);
-//        holder.mContentView.setText(mValues.get(position).content);
+        String name = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_NAME));
+        String address = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_ADDRESS));
+        String city = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_CITY));
+        String toId = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_TO_ID));
+        String date = mCursor.getString(mCursor.getColumnIndex(InspectionEntry.COLUMN_DATE));
+        int grade = mCursor.getInt(mCursor.getColumnIndex(InspectionEntry.COLUMN_GRADE));
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.mHeaderView.setText(name);
+        holder.mSubView.setText(mContext.getString(R.string.list_address, address, city));
+        holder.mToId = toId;
+        holder.mDateView.setText(Utilities.formatDateToShortDate(date));
+
+        if(grade == 0 || grade == 1){
+            holder.mIconView.setImageResource(R.drawable.ic_mood_happy);
+        }
+        else if(grade == 2){
+            holder.mIconView.setImageResource(R.drawable.ic_mood_neutral);
+        }
+        else if(grade == 3){
+            holder.mIconView.setImageResource(R.drawable.ic_mood_sad);
+        }
+        else {
+            holder.mIconView.setImageResource(R.drawable.ic_mood_none);
+        }
+
     }
 
     @Override
@@ -58,22 +77,22 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
         //mEmptyView.setVisibility(getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        String mToId;
+        @Bind(R.id.header_text) TextView mHeaderView;
+        @Bind(R.id.sub_text) TextView mSubView;
+        @Bind(R.id.date_label) TextView mDateView;
+        @Bind(R.id.smiley_icon) ImageView mIconView;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
         @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public void onClick(View v) {
+            mListener.onListClick(mToId);
         }
     }
 }

@@ -20,8 +20,12 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
+import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
 public class SmileyProvider extends ContentProvider {
 
@@ -40,12 +44,12 @@ public class SmileyProvider extends ContentProvider {
 //        //This is an inner join which looks like
 //        //weather INNER JOIN location ON weather.location_id = location._id
 //        sWeatherByLocationSettingQueryBuilder.setTables(
-//                SmileyContract.InspectionEntry.TABLE_NAME + " INNER JOIN " +
-//                        SmileyContract.LocationEntry.TABLE_NAME +
-//                        " ON " + SmileyContract.InspectionEntry.TABLE_NAME +
-//                        "." + SmileyContract.InspectionEntry.COLUMN_LOC_KEY +
-//                        " = " + SmileyContract.LocationEntry.TABLE_NAME +
-//                        "." + SmileyContract.LocationEntry._ID);
+//                InspectionEntry.TABLE_NAME + " INNER JOIN " +
+//                        LocationEntry.TABLE_NAME +
+//                        " ON " + InspectionEntry.TABLE_NAME +
+//                        "." + InspectionEntry.COLUMN_LOC_KEY +
+//                        " = " + LocationEntry.TABLE_NAME +
+//                        "." + LocationEntry._ID);
 //    }
 
     //location.location_setting = ?
@@ -65,30 +69,27 @@ public class SmileyProvider extends ContentProvider {
 //                    "." + SmileyContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ? AND " +
 //                    SmileyContract.InspectionEntry.COLUMN_DATE + " = ? ";
 //
-//    private Cursor getWeatherByLocationSetting(Uri uri, String[] projection, String sortOrder) {
-//        String locationSetting = SmileyContract.InspectionEntry.getLocationSettingFromUri(uri);
-//        long startDate = SmileyContract.InspectionEntry.getStartDateFromUri(uri);
-//
-//        String[] selectionArgs;
-//        String selection;
-//
-//        if (startDate == 0) {
-//            selection = sLocationSettingSelection;
-//            selectionArgs = new String[]{locationSetting};
-//        } else {
-//            selectionArgs = new String[]{locationSetting, Long.toString(startDate)};
-//            selection = sLocationSettingWithStartDateSelection;
-//        }
-//
-//        return sWeatherByLocationSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-//                projection,
-//                selection,
-//                selectionArgs,
-//                null,
-//                null,
-//                sortOrder
-//        );
-//    }
+    private Cursor getLocationWithLatestInspection(Uri uri, String[] projection, String sortOrder) {
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        builder.setTables(
+                LocationEntry.TABLE_NAME
+                        + " LEFT JOIN ( SELECT * FROM " + InspectionEntry.TABLE_NAME +
+                                        " GROUP BY " + InspectionEntry.COLUMN_TO_ID +
+                                        " ORDER BY " + InspectionEntry.COLUMN_INSP_ID + ") " + InspectionEntry.TABLE_NAME +
+                        " ON " + LocationEntry.TABLE_NAME +
+                        "." + LocationEntry.COLUMN_TO_ID +
+                        " = " + InspectionEntry.TABLE_NAME +
+                        "." + InspectionEntry.COLUMN_TO_ID);
+        return builder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+    }
 //
 //    private Cursor getWeatherByLocationSettingAndDate(
 //            Uri uri, String[] projection, String sortOrder) {
@@ -132,9 +133,9 @@ public class SmileyProvider extends ContentProvider {
 
         switch (match) {
             case INSPECTION:
-                return SmileyContract.InspectionEntry.CONTENT_TYPE;
+                return InspectionEntry.CONTENT_TYPE;
             case LOCATION:
-                return SmileyContract.LocationEntry.CONTENT_TYPE;
+                return LocationEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -147,7 +148,7 @@ public class SmileyProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case INSPECTION: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                        SmileyContract.InspectionEntry.TABLE_NAME,
+                        InspectionEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -158,15 +159,16 @@ public class SmileyProvider extends ContentProvider {
                 break;
             }
             case LOCATION: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        SmileyContract.LocationEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
+                retCursor = getLocationWithLatestInspection(uri, projection, sortOrder);
+//                retCursor = mOpenHelper.getReadableDatabase().query(
+//                        LocationEntry.TABLE_NAME,
+//                        projection,
+//                        selection,
+//                        selectionArgs,
+//                        null,
+//                        null,
+//                        sortOrder
+//                );
                 break;
             }
 
@@ -185,17 +187,17 @@ public class SmileyProvider extends ContentProvider {
 
         switch (match) {
             case INSPECTION: {
-                long _id = db.insert(SmileyContract.InspectionEntry.TABLE_NAME, null, values);
+                long _id = db.insert(InspectionEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = SmileyContract.InspectionEntry.buildInspectionUri(_id);
+                    returnUri = InspectionEntry.buildInspectionUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
             case LOCATION: {
-                long _id = db.insert(SmileyContract.LocationEntry.TABLE_NAME, null, values);
+                long _id = db.insert(LocationEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = SmileyContract.LocationEntry.buildLocationUri(_id);
+                    returnUri = LocationEntry.buildLocationUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -217,11 +219,11 @@ public class SmileyProvider extends ContentProvider {
         switch (match) {
             case INSPECTION:
                 rowsDeleted = db.delete(
-                        SmileyContract.InspectionEntry.TABLE_NAME, selection, selectionArgs);
+                        InspectionEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case LOCATION:
                 rowsDeleted = db.delete(
-                        SmileyContract.LocationEntry.TABLE_NAME, selection, selectionArgs);
+                        LocationEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -242,11 +244,11 @@ public class SmileyProvider extends ContentProvider {
 
         switch (match) {
             case INSPECTION:
-                rowsUpdated = db.update(SmileyContract.InspectionEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(InspectionEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case LOCATION:
-                rowsUpdated = db.update(SmileyContract.LocationEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(LocationEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:

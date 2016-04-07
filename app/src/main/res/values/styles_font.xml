@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--++++++++++++++++++++++++++-->
+    <!--added on API 16 (JB - 4.1)-->
+    <!--++++++++++++++++++++++++++-->
+    <!--the default font-->
+    <!--<string name="fontFamily__roboto_regular">sans-serif</string>-->
+    <string name="fontFamily__roboto_light">sans-serif-light</string>
+    <string name="fontFamily__roboto_condensed">sans-serif-condensed</string>
+
+    <!--+++++++++++++++++++++++++++++-->
+    <!--added on API 17 (JBMR1 - 4.2)-->
+    <!--+++++++++++++++++++++++++++++-->
+    <!--<string name="fontFamily__roboto_thin">sans-serif-thin</string>-->
+
+    <!--+++++++++++++++++++++++++++-->
+    <!--added on Lollipop (LL- 5.0)-->
+    <!--+++++++++++++++++++++++++++-->
+    <string name="fontFamily__roboto_medium">sans-serif-medium</string>
+    <!--<string name="fontFamily__roboto_black">sans-serif-black</string>-->
+    <!--<string name="fontFamily__roboto_condensed_light">sans-serif-condensed-light</string>-->
+
+    <style name="FontMedium" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@string/fontFamily__roboto_medium</item>
+    </style>
+
+    <style name="FontLight" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@string/fontFamily__roboto_light</item>
+    </style>
+
+    <style name="FontCondensed" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@string/fontFamily__roboto_condensed</item>
+    </style>
+
+    <style name="Text" parent="FontLight">
+        <item name="android:textColor">@color/default_text_color</item>
+    </style>
+
+    <style name="Text.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Small.Bold" parent="Text.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Small.Accent">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text.Small.Secondary">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="Text.Small.Inverse">
+        <item name="android:textColor">@color/inverse_text_color</item>
+    </style>
+
+    <style name="Text.Medium">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Medium.Secondary">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="Text.Medium.Red">
+        <item name="android:textColor">@color/invalid_text_color</item>
+    </style>
+
+    <style name="Text.Medium.Inverse">
+        <item name="android:textColor">@color/inverse_text_color</item>
+    </style>
+
+    <style name="Text.Medium.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Medium.Bold.Secondary">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="Text.Medium.Italic">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Text.Medium.Italic.Secondary">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="Text.Large">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Large.Secondary">
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="Text.Large.Red">
+        <item name="android:textColor">@color/invalid_text_color</item>
+    </style>
+
+    <style name="Text.Large.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.XLarge">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.XLarge.Bold" parent="Text.XLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.XLarge.Thin">
+        <item name="android:fontFamily">@string/fontFamily__roboto_light</item>
+    </style>
+
+    <style name="Text.XLarge.Inverse">
+        <item name="android:textColor">@color/inverse_text_color</item>
+    </style>
+
+    <style name="Text.XXLarge">
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="Text.XXLarge.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

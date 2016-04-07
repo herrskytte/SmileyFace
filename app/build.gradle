@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "no.skytte.smileyface"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -30,4 +30,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.1'
     compile 'net.sf.opencsv:opencsv:2.3'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'net.danlew:android.joda:2.9.1'
 }

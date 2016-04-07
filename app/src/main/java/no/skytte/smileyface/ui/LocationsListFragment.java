@@ -11,29 +11,33 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
+import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
-import no.skytte.smileyface.ui.dummy.DummyContent.DummyItem;
 
 public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int LOCATIONS_LOADER = 0;
 
-    private OnListFragmentInteractionListener mListener;
+    private InteractionListener mListener;
     private LocationsRecyclerViewAdapter mAdapter;
 
     @Bind(R.id.recyclerview_locations) RecyclerView mRecyclerView;
+    @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
 
     private static final String[] LOCATION_COLUMNS = {
-            LocationEntry._ID,
+            LocationEntry.TABLE_NAME + "." + LocationEntry._ID,
             LocationEntry.COLUMN_TO_ID,
             LocationEntry.COLUMN_NAME,
             LocationEntry.COLUMN_ADDRESS,
             LocationEntry.COLUMN_POSTCODE,
-            LocationEntry.COLUMN_CITY
+            LocationEntry.COLUMN_CITY,
+            InspectionEntry.COLUMN_DATE,
+            InspectionEntry.COLUMN_GRADE
     };
 
     @Override
@@ -51,7 +55,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new LocationsRecyclerViewAdapter(mListener);
+        mAdapter = new LocationsRecyclerViewAdapter(getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
@@ -66,12 +70,12 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
+        if (context instanceof InteractionListener) {
+            mListener = (InteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -110,7 +114,8 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void updateEmptyView() {
-//        if ( mForecastAdapter.getItemCount() == 0 ) {
+        mEmptyView.setVisibility(mAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+
 //            TextView tv = (TextView) getView().findViewById(R.id.recyclerview_forecast_empty);
 //            if ( null != tv ) {
 //                // if cursor is empty, why? do we have an invalid location
@@ -146,8 +151,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+    public interface InteractionListener {
+        void onListClick(String toId);
     }
 }

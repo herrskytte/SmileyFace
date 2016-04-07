@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
+    android:background="?attr/selectableItemBackground"
+    tools:ignore="ContentDescription"
+    android:paddingTop="@dimen/small_margin"
+    android:paddingBottom="@dimen/small_margin"
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
+    >
+    <ImageView
+        android:id="@+id/smiley_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_mood_none"
+        tools:src="@drawable/ic_mood_happy"
+        />
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/date_label"
+        style="@style/Text.Small.Bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_below="@id/smiley_icon"
+        android:layout_alignLeft="@id/smiley_icon"
+        android:layout_alignStart="@id/smiley_icon"
+        android:layout_alignRight="@id/smiley_icon"
+        android:layout_alignEnd="@id/smiley_icon"
+        android:gravity="center_horizontal"
+        tools:text="22.08"/>
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/header_text"
+        style="@style/Text.XLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_toRightOf="@id/smiley_icon"
+        android:layout_toEndOf="@id/smiley_icon"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Burger King Oslo City" />
+
+    <TextView
+        android:id="@+id/sub_text"
+        style="@style/Text.Medium.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/header_text"
+        android:layout_alignStart="@id/header_text"
+        android:layout_below="@id/header_text"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Karl Johans gate 24, Oslo" />
+    <!--<View-->
+        <!--android:layout_marginTop="@dimen/small_margin"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@color/background_gray_dark"-->
+        <!--android:layout_below="@id/sub_text" />-->
+</RelativeLayout>

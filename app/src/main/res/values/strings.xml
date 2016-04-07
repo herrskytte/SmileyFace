@@ -2,4 +2,5 @@
     <string name="app_name">SmileyFace</string>
     <string name="title_inspection_detail">Inspection Detail</string>
     <string name="empty_locations_list">We could not find any restaurants for you right now</string>
+    <string name="list_address">%1$s, %2$s</string>
 </resources>
