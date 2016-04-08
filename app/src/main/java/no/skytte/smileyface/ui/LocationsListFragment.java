@@ -8,6 +8,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,7 @@ import no.skytte.smileyface.R;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
-public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,  SearchView.OnQueryTextListener{
 
     private static final int LOCATIONS_LOADER = 0;
 
@@ -28,6 +30,9 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
 
     @Bind(R.id.recyclerview_locations) RecyclerView mRecyclerView;
     @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
+    @Bind(R.id.search_view) SearchView mSearchView;
+
+    private String mSearchQuery;
 
     private static final String[] LOCATION_COLUMNS = {
             LocationEntry.TABLE_NAME + "." + LocationEntry._ID,
@@ -58,7 +63,21 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
         mAdapter = new LocationsRecyclerViewAdapter(getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
+        mSearchView.setOnQueryTextListener(this);
+
         return view;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        mSearchQuery = newText;
+        getLoaderManager().restartLoader(LOCATIONS_LOADER, null, this);
+        return true;
     }
 
     @Override
@@ -94,11 +113,22 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         //String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
 
+        String selection = null;
+        String[] selectionArgs = null;
+        if(!TextUtils.isEmpty(mSearchQuery)){
+            selection = LocationEntry.WHERE_SEARCH_QUERY;
+            selectionArgs = new String[]{
+                    "%" + mSearchQuery + "%",
+                    "%" + mSearchQuery + "%",
+                    "%" + mSearchQuery + "%",
+                    "%" + mSearchQuery + "%"
+            };
+        }
         return new CursorLoader(getActivity(),
                 LocationEntry.CONTENT_URI,
                 LOCATION_COLUMNS,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null);
     }
 

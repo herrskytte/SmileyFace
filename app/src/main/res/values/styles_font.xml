@@ -124,7 +124,16 @@
         <item name="android:textSize">34sp</item>
     </style>
 
+    <style name="Text.XXLarge.Inverse">
+        <item name="android:textColor">@color/inverse_text_color</item>
+    </style>
+
     <style name="Text.XXLarge.Bold">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InvisibleText">
+        <item name="android:textSize">0sp</item>
+        <item name="android:textColor">@android:color/transparent</item>
     </style>
 </resources>

@@ -8,4 +8,5 @@
     <dimen name="default_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="detail_card_elevation">6dp</dimen>
+    <dimen name="keyline_2">68dp</dimen>
 </resources>

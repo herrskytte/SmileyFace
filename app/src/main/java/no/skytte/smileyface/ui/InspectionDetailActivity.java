@@ -56,8 +56,8 @@ public class InspectionDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(InspectionDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(InspectionDetailFragment.ARG_ITEM_ID));
+            arguments.putString(InspectionDetailFragment.ARG_TO_ID,
+                    getIntent().getStringExtra(InspectionDetailFragment.ARG_TO_ID));
             InspectionDetailFragment fragment = new InspectionDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

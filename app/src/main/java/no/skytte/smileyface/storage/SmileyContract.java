@@ -61,8 +61,18 @@ public class SmileyContract {
         public static final String COLUMN_COORD_LAT = "coord_lat";
         public static final String COLUMN_COORD_LONG = "coord_long";
 
-        public static Uri buildLocationUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+        public static final String WHERE_SEARCH_QUERY =
+                LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_NAME + " LIKE ?" +
+                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_ADDRESS + " LIKE ?" +
+                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_CITY + " LIKE ?" +
+                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_POSTCODE + " LIKE ?";
+
+        public static Uri buildLocationUri(String toId) {
+            return CONTENT_URI.buildUpon().appendEncodedPath(toId).build();
+        }
+
+        public static String getToIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
         }
     }
 

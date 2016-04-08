@@ -35,6 +35,7 @@ public class SmileyProvider extends ContentProvider {
 
     static final int INSPECTION = 100;
     static final int LOCATION = 300;
+    static final int LOCATION_WITH_ID = 301;
 
 //    private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
 //
@@ -52,10 +53,7 @@ public class SmileyProvider extends ContentProvider {
 //                        "." + LocationEntry._ID);
 //    }
 
-    //location.location_setting = ?
-//    private static final String sLocationSettingSelection =
-//            SmileyContract.LocationEntry.TABLE_NAME+
-//                    "." + SmileyContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ? ";
+
 //
 //    //location.location_setting = ? AND date >= ?
 //    private static final String sLocationSettingWithStartDateSelection =
@@ -69,7 +67,7 @@ public class SmileyProvider extends ContentProvider {
 //                    "." + SmileyContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ? AND " +
 //                    SmileyContract.InspectionEntry.COLUMN_DATE + " = ? ";
 //
-    private Cursor getLocationWithLatestInspection(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getLocationWithLatestInspection(String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
 
         builder.setTables(
@@ -83,28 +81,53 @@ public class SmileyProvider extends ContentProvider {
                         "." + InspectionEntry.COLUMN_TO_ID);
         return builder.query(mOpenHelper.getReadableDatabase(),
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
         );
     }
-//
-//    private Cursor getWeatherByLocationSettingAndDate(
-//            Uri uri, String[] projection, String sortOrder) {
-//        String locationSetting = SmileyContract.InspectionEntry.getLocationSettingFromUri(uri);
-//        long date = SmileyContract.InspectionEntry.getDateFromUri(uri);
-//
-//        return sWeatherByLocationSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-//                projection,
-//                sLocationSettingAndDaySelection,
-//                new String[]{locationSetting, Long.toString(date)},
-//                null,
-//                null,
-//                sortOrder
-//        );
-//    }
+
+    private Cursor getLocationById(Uri uri, String[] projection, String sortOrder) {
+        String toId = LocationEntry.getToIdFromUri(uri);
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        builder.setTables(
+                LocationEntry.TABLE_NAME + " INNER JOIN " +
+                        InspectionEntry.TABLE_NAME +
+                        " ON " + InspectionEntry.TABLE_NAME +
+                        "." + InspectionEntry.COLUMN_LOC_KEY +
+                        " = " + LocationEntry.TABLE_NAME +
+                        "." + LocationEntry._ID);
+
+                LocationEntry.TABLE_NAME
+                        + " LEFT JOIN ( SELECT * FROM " + InspectionEntry.TABLE_NAME +
+                        " GROUP BY " + InspectionEntry.COLUMN_TO_ID +
+                        " ORDER BY " + InspectionEntry.COLUMN_INSP_ID + ") " + InspectionEntry.TABLE_NAME +
+                        " ON " + LocationEntry.TABLE_NAME +
+                        "." + LocationEntry.COLUMN_TO_ID +
+                        " = " + InspectionEntry.TABLE_NAME +
+                        "." + InspectionEntry.COLUMN_TO_ID);
+        return builder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+
+        return sWeatherByLocationSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                sLocationSettingAndDaySelection,
+                new String[]{locationSetting, Long.toString(date)},
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     static UriMatcher buildUriMatcher() {
         // All paths added to the UriMatcher have a corresponding code to return when a match is
@@ -116,6 +139,7 @@ public class SmileyProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, SmileyContract.PATH_INSPECTION, INSPECTION);
         matcher.addURI(authority, SmileyContract.PATH_LOCATION, LOCATION);
+        matcher.addURI(authority, SmileyContract.PATH_LOCATION + "/*", LOCATION_WITH_ID);
         return matcher;
     }
 
@@ -136,6 +160,8 @@ public class SmileyProvider extends ContentProvider {
                 return InspectionEntry.CONTENT_TYPE;
             case LOCATION:
                 return LocationEntry.CONTENT_TYPE;
+            case LOCATION_WITH_ID:
+                return LocationEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -159,16 +185,11 @@ public class SmileyProvider extends ContentProvider {
                 break;
             }
             case LOCATION: {
-                retCursor = getLocationWithLatestInspection(uri, projection, sortOrder);
-//                retCursor = mOpenHelper.getReadableDatabase().query(
-//                        LocationEntry.TABLE_NAME,
-//                        projection,
-//                        selection,
-//                        selectionArgs,
-//                        null,
-//                        null,
-//                        sortOrder
-//                );
+                retCursor = getLocationWithLatestInspection(projection, selection, selectionArgs, sortOrder);
+                break;
+            }
+            case LOCATION_WITH_ID: {
+                retCursor = getLocationById(uri, projection, sortOrder);
                 break;
             }
 
@@ -197,7 +218,7 @@ public class SmileyProvider extends ContentProvider {
             case LOCATION: {
                 long _id = db.insert(LocationEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = LocationEntry.buildLocationUri(_id);
+                    returnUri = LocationEntry.buildLocationUri(values.getAsString(LocationEntry.COLUMN_TO_ID));
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;

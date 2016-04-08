@@ -1,5 +1,6 @@
 package no.skytte.smileyface.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements LocationsListFrag
 
     @Override
     public void onListClick(String toId) {
+        Intent i = new Intent(this, InspectionDetailActivity.class);
+        i.putExtra(InspectionDetailFragment.ARG_TO_ID, toId);
+        startActivity(i);
         Toast.makeText(this, toId, Toast.LENGTH_LONG).show();
     }
 }
