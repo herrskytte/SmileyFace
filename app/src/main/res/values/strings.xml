@@ -3,4 +3,12 @@
     <string name="title_inspection_detail">Inspection Detail</string>
     <string name="empty_locations_list">We could not find any restaurants for you right now</string>
     <string name="list_address">%1$s, %2$s</string>
+    <string name="last_inspection_lbl">Last inspection result:</string>
+    <string name="alt_inspection_smiley">Inspection smiley</string>
+    <string name="category1">Routines and management:</string>
+    <string name="category2">Premises and equipment:</string>
+    <string name="category3">Food handling and preparation:</string>
+    <string name="category4">Labelling and traceability:</string>
+    <string name="inspection_result_details">Inspection result details:</string>
+    <string name="previous_results">Previous results:</string>
 </resources>

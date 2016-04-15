@@ -1,9 +1,221 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Detail Layout for Grid -->
+<android.support.v7.widget.GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/inspection_detail"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".ui.InspectionDetailFragment" />
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_margin"
+    app:columnCount="2">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_width="0dp"
+        app:layout_gravity="fill"
+        app:layout_rowWeight="1">
+        <TextView
+            android:id="@+id/header_text"
+            style="@style/Text.XLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Burger King Oslo C" />
+
+        <TextView
+            android:id="@+id/sub_text"
+            style="@style/Text.Medium.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Karl Johans gate 24, Oslo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        app:layout_gravity="fill_vertical"
+        app:layout_rowWeight="1">
+        <ImageView
+            android:id="@+id/smiley_icon"
+            android:layout_width="@dimen/smiley_size_large"
+            android:layout_height="@dimen/smiley_size_large"
+            android:src="@drawable/ic_mood_none"
+            tools:src="@drawable/ic_mood_happy"
+            android:contentDescription="@string/alt_inspection_smiley"
+            />
+        <TextView
+            android:id="@+id/date_label"
+            style="@style/Text.Medium.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            tools:text="22.08"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/default_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Large"
+        android:layout_width="wrap_content"
+        app:layout_gravity="fill"
+        app:layout_columnSpan="2"
+        android:text="@string/inspection_result_details" />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/small_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Medium"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:text="@string/category1" />
+    <ImageView
+        android:id="@+id/details1_icon"
+        android:layout_width="@dimen/smiley_size_small"
+        android:layout_height="@dimen/smiley_size_small"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:src="@drawable/ic_mood_none"
+        android:contentDescription="@string/alt_inspection_smiley"
+        />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/small_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Medium"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:text="@string/category2" />
+    <ImageView
+        android:id="@+id/details2_icon"
+        android:layout_width="@dimen/smiley_size_small"
+        android:layout_height="@dimen/smiley_size_small"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:src="@drawable/ic_mood_none"
+        android:contentDescription="@string/alt_inspection_smiley"
+        />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/small_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Medium"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:text="@string/category3" />
+    <ImageView
+        android:id="@+id/details3_icon"
+        android:layout_width="@dimen/smiley_size_small"
+        android:layout_height="@dimen/smiley_size_small"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:src="@drawable/ic_mood_none"
+        android:contentDescription="@string/alt_inspection_smiley"
+        />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/small_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Medium"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:text="@string/category4" />
+    <ImageView
+        android:id="@+id/details4_icon"
+        android:layout_width="@dimen/smiley_size_small"
+        android:layout_height="@dimen/smiley_size_small"
+        android:gravity="center_vertical"
+        app:layout_gravity="fill"
+        android:src="@drawable/ic_mood_none"
+        android:contentDescription="@string/alt_inspection_smiley"
+        />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/default_margin"
+        app:layout_columnSpan="2" />
+
+    <TextView
+        style="@style/Text.Large"
+        android:layout_width="wrap_content"
+        app:layout_gravity="fill"
+        app:layout_columnSpan="2"
+        android:text="@string/previous_results" />
+
+    <android.support.v7.widget.Space
+        android:layout_height="@dimen/small_margin"
+        app:layout_columnSpan="2" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_columnSpan="2"
+        app:layout_gravity="fill"
+        app:columnCount="3">
+        <ImageView
+            android:id="@+id/previous1_icon"
+            android:layout_width="@dimen/smiley_size_large"
+            android:layout_height="@dimen/smiley_size_large"
+            android:gravity="center_vertical"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:src="@drawable/ic_mood_none"
+            android:contentDescription="@string/alt_inspection_smiley"
+            />
+        <ImageView
+            android:id="@+id/previous2_icon"
+            android:layout_width="@dimen/smiley_size_large"
+            android:layout_height="@dimen/smiley_size_large"
+            android:gravity="center_vertical"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:src="@drawable/ic_mood_none"
+            android:contentDescription="@string/alt_inspection_smiley"
+            tools:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/previous3_icon"
+            android:layout_width="@dimen/smiley_size_large"
+            android:layout_height="@dimen/smiley_size_large"
+            android:gravity="center_vertical"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:src="@drawable/ic_mood_none"
+            android:contentDescription="@string/alt_inspection_smiley"
+            />
+        <TextView
+            android:id="@+id/previous1_date"
+            style="@style/Text.Medium.Bold"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:gravity="center_horizontal"
+            tools:text="22.08"/>
+        <TextView
+            android:id="@+id/previous2_date"
+            style="@style/Text.Medium.Bold"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:gravity="center_horizontal"
+            tools:visibility="gone"
+            tools:text="22.08"/>
+        <TextView
+            android:id="@+id/previous3_date"
+            style="@style/Text.Medium.Bold"
+            app:layout_gravity="fill"
+            app:layout_columnWeight="1"
+            android:gravity="center_horizontal"
+            tools:text="22.08"/>
+    </android.support.v7.widget.GridLayout>
+</android.support.v7.widget.GridLayout>

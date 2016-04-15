@@ -97,32 +97,15 @@ public class SmileyProvider extends ContentProvider {
         builder.setTables(
                 LocationEntry.TABLE_NAME + " INNER JOIN " +
                         InspectionEntry.TABLE_NAME +
-                        " ON " + InspectionEntry.TABLE_NAME +
-                        "." + InspectionEntry.COLUMN_LOC_KEY +
-                        " = " + LocationEntry.TABLE_NAME +
-                        "." + LocationEntry._ID);
-
-                LocationEntry.TABLE_NAME
-                        + " LEFT JOIN ( SELECT * FROM " + InspectionEntry.TABLE_NAME +
-                        " GROUP BY " + InspectionEntry.COLUMN_TO_ID +
-                        " ORDER BY " + InspectionEntry.COLUMN_INSP_ID + ") " + InspectionEntry.TABLE_NAME +
                         " ON " + LocationEntry.TABLE_NAME +
                         "." + LocationEntry.COLUMN_TO_ID +
                         " = " + InspectionEntry.TABLE_NAME +
                         "." + InspectionEntry.COLUMN_TO_ID);
+
         return builder.query(mOpenHelper.getReadableDatabase(),
                 projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
-
-        return sWeatherByLocationSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-                projection,
-                sLocationSettingAndDaySelection,
-                new String[]{locationSetting, Long.toString(date)},
+                LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_TO_ID + "=?",
+                new String[]{toId},
                 null,
                 null,
                 sortOrder

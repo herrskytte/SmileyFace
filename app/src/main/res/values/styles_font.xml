@@ -37,7 +37,7 @@
     </style>
 
     <style name="Text.Small">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Text.Small.Bold" parent="Text.Small">
@@ -57,7 +57,7 @@
     </style>
 
     <style name="Text.Medium">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Text.Medium.Secondary">
@@ -89,7 +89,7 @@
     </style>
 
     <style name="Text.Large">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="Text.Large.Secondary">
@@ -105,15 +105,11 @@
     </style>
 
     <style name="Text.XLarge">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
     <style name="Text.XLarge.Bold" parent="Text.XLarge">
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Text.XLarge.Thin">
-        <item name="android:fontFamily">@string/fontFamily__roboto_light</item>
     </style>
 
     <style name="Text.XLarge.Inverse">

@@ -13,8 +13,8 @@
     >
     <ImageView
         android:id="@+id/smiley_icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/smiley_size_small"
+        android:layout_height="@dimen/smiley_size_small"
         android:src="@drawable/ic_mood_none"
         tools:src="@drawable/ic_mood_happy"
         />
@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/header_text"
-        style="@style/Text.XLarge"
+        style="@style/Text.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/default_margin"
@@ -46,7 +46,7 @@
 
     <TextView
         android:id="@+id/sub_text"
-        style="@style/Text.Medium.Secondary"
+        style="@style/Text.Small.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/header_text"
