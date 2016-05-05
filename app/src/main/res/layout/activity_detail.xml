@@ -3,5 +3,5 @@
     android:id="@+id/inspection_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="no.skytte.smileyface.ui.InspectionDetailActivity"
+    tools:context=".ui.DetailActivity"
     tools:ignore="MergeRootFrame" />

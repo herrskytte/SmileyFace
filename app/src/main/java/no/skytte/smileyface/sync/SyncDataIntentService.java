@@ -93,6 +93,8 @@ public class SyncDataIntentService extends IntentService {
 
 
             Log.e(TAG, "Total time (ms): " + (step4 - timeStart));
+            getContentResolver().notifyChange(LocationEntry.CONTENT_URI, null);
+            getContentResolver().notifyChange(InspectionEntry.CONTENT_URI, null);
         } catch (IOException e) {
             Log.e(TAG, "Error syncing and saving data", e);
         }

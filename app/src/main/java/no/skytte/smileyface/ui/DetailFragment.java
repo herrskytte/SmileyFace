@@ -2,66 +2,66 @@ package no.skytte.smileyface.ui;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
+import no.skytte.smileyface.Utilities;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
 /**
  * A fragment representing a single Inspection detail screen.
  * This fragment is either contained in a {@link MainActivity}
- * in two-pane mode (on tablets) or a {@link InspectionDetailActivity}
+ * in two-pane mode (on tablets) or a {@link DetailActivity}
  * on handsets.
  */
-public class InspectionDetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String ARG_TO_ID = "tilsynsobjekt_id";
 
     private static final int LOCATIONS_LOADER = 0;
 
     private static final String[] LOCATION_COLUMNS = {
-            LocationEntry.TABLE_NAME + "." + LocationEntry._ID,
-            LocationEntry.COLUMN_TO_ID,
-            LocationEntry.COLUMN_NAME,
-            LocationEntry.COLUMN_ADDRESS,
-            LocationEntry.COLUMN_POSTCODE,
-            LocationEntry.COLUMN_CITY,
-            InspectionEntry.COLUMN_DATE,
-            InspectionEntry.COLUMN_GRADE
+            LocationEntry.COLUMN_NAME
     };
 
     @Bind(R.id.detail_toolbar) Toolbar mToolbar;
+    @Bind(R.id.container) ViewPager mViewPager;
+    @Bind(R.id.tabs) TabLayout mTabs;
 
+    SectionsPagerAdapter mSectionsPagerAdapter;
     private String mCurrentToId;
+
+    public static DetailFragment newInstance(String toId) {
+        DetailFragment fragment = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_TO_ID, toId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mCurrentToId = getArguments().getString(ARG_TO_ID);
-
-//            // Load the dummy content specified by the fragment
-//            // arguments. In a real-world scenario, use a Loader
-//            // to load content from a content provider.
-//            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_TO_ID));
-//
-//            Activity activity = this.getActivity();
-//            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-//            if (appBarLayout != null) {
-//                appBarLayout.setTitle(mItem.content);
-//            }
 
     }
 
@@ -70,12 +70,16 @@ public class InspectionDetailFragment extends Fragment implements LoaderManager.
                              Bundle savedInstanceState) {
         mCurrentToId = getArguments().getString(ARG_TO_ID);
 
-        View rootView = inflater.inflate(R.layout.fragment_inspection_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, rootView);
 
         AppCompatActivity activity = ((AppCompatActivity) getActivity());
         activity.setSupportActionBar(mToolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mTabs.setupWithViewPager(mViewPager);
 
         return rootView;
     }
@@ -95,10 +99,10 @@ public class InspectionDetailFragment extends Fragment implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(),
-                LocationEntry.buildLocationUri(mCurrentToId),
+                LocationEntry.CONTENT_URI,
                 LOCATION_COLUMNS,
-                null,
-                null,
+                LocationEntry.COLUMN_TO_ID + "=?",
+                new String[]{mCurrentToId},
                 null);
     }
 
@@ -109,7 +113,9 @@ public class InspectionDetailFragment extends Fragment implements LoaderManager.
         }
 
         if(data.moveToNext()){
-            getActivity().setTitle(data.getString(data.getColumnIndex(LocationEntry.COLUMN_NAME)));
+            String name = data.getString(data.getColumnIndex(LocationEntry.COLUMN_NAME));
+            mToolbar.setTitle(name);
+
         }
 
         while (data.moveToNext()){
@@ -121,5 +127,38 @@ public class InspectionDetailFragment extends Fragment implements LoaderManager.
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if(position == 0){
+                return InspectionInfoFragment.newInstance(mCurrentToId);
+            }
+            else {
+                return MapsFragment.newInstance(mCurrentToId);
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getString(R.string.tab_title_info);
+                case 1:
+                    return getString(R.string.tab_title_map);
+            }
+            return null;
+        }
     }
 }

@@ -11,22 +11,18 @@ import no.skytte.smileyface.R;
  * item details are presented side-by-side with a list of items
  * in a {@link MainActivity}.
  */
-public class InspectionDetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inspection_detail);
+        setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(InspectionDetailFragment.ARG_TO_ID,
-                    getIntent().getStringExtra(InspectionDetailFragment.ARG_TO_ID));
 
-            InspectionDetailFragment fragment = new InspectionDetailFragment();
-            fragment.setArguments(arguments);
+            DetailFragment fragment = DetailFragment.newInstance(getIntent().getStringExtra(DetailFragment.ARG_TO_ID));
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.inspection_detail_container, fragment)
                     .commit();

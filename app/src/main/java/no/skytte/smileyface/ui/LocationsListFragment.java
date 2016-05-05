@@ -30,6 +30,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
 
     @Bind(R.id.recyclerview_locations) RecyclerView mRecyclerView;
     @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
+    @Bind(R.id.recyclerview_loading) View mLoadingView;
     @Bind(R.id.search_view) SearchView mSearchView;
 
     private String mSearchQuery;
@@ -41,6 +42,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
             LocationEntry.COLUMN_ADDRESS,
             LocationEntry.COLUMN_POSTCODE,
             LocationEntry.COLUMN_CITY,
+            InspectionEntry.COLUMN_INSP_ID,
             InspectionEntry.COLUMN_DATE,
             InspectionEntry.COLUMN_GRADE
     };
@@ -129,7 +131,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
                 LOCATION_COLUMNS,
                 selection,
                 selectionArgs,
-                null);
+                InspectionEntry.COLUMN_INSP_ID + " DESC");
     }
 
     @Override
@@ -144,7 +146,20 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     }
 
     private void updateEmptyView() {
-        mEmptyView.setVisibility(mAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        if(mAdapter.getItemCount() == 0){
+            if(TextUtils.isEmpty(mSearchQuery)){
+                mEmptyView.setVisibility(View.GONE);
+                mLoadingView.setVisibility(View.VISIBLE);
+            }
+            else{
+                mEmptyView.setVisibility(View.VISIBLE);
+                mLoadingView.setVisibility(View.GONE);
+            }
+        }
+        else {
+            mEmptyView.setVisibility(View.GONE);
+            mLoadingView.setVisibility(View.GONE);
+        }
 
 //            TextView tv = (TextView) getView().findViewById(R.id.recyclerview_forecast_empty);
 //            if ( null != tv ) {

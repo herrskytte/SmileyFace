@@ -50,18 +50,7 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
         holder.mToId = toId;
         holder.mDateView.setText(Utilities.formatDateToShortDate(date));
 
-        if(grade == 0 || grade == 1){
-            holder.mIconView.setImageResource(R.drawable.ic_mood_happy);
-        }
-        else if(grade == 2){
-            holder.mIconView.setImageResource(R.drawable.ic_mood_neutral);
-        }
-        else if(grade == 3){
-            holder.mIconView.setImageResource(R.drawable.ic_mood_sad);
-        }
-        else {
-            holder.mIconView.setImageResource(R.drawable.ic_mood_none);
-        }
+        Utilities.setSmileyImage(holder.mIconView, grade);
 
     }
 

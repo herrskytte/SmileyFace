@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.InspectionDetailActivity"
+    tools:context=".ui.DetailActivity"
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
@@ -42,6 +42,7 @@
                     android:theme="@style/ThemeOverlay.AppCompat.Light"
                     app:layout_collapseMode="pin"
                     app:iconifiedByDefault="false"
+                    app:defaultQueryHint="@string/search_hint"
                     android:elevation="8dp"/>
             </android.support.v7.widget.CardView>
 
@@ -58,6 +59,26 @@
         tools:listitem="@layout/list_item_location"
         />
 
+    <!-- loading data -->
+    <RelativeLayout
+        android:id="@+id/recyclerview_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/spinner1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinner1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="@dimen/default_margin"
+            android:text="@string/loading_list"/>
+    </RelativeLayout>
 
     <!-- empty list -->
     <TextView
