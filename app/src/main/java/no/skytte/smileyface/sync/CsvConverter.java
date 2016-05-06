@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import au.com.bytecode.opencsv.CSVReader;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
@@ -24,7 +23,7 @@ public class CsvConverter<T> implements Converter<ResponseBody, List<T>> {
 
     @Override
     public List<T> convert(ResponseBody body) throws IOException {
-        CSVReader csvreader = new CSVReader(body.charStream(), ';');
+        CSVReader csvreader = new CSVReader(body.charStream(), ';', CSVReader.DEFAULT_QUOTE_CHARACTER, CSVReader.DEFAULT_SKIP_LINES);
         String [] nextLine;
 
         List<T> result = new ArrayList<>();

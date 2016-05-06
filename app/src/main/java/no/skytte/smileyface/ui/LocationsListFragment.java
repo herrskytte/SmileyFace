@@ -15,13 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
+import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
 public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,  SearchView.OnQueryTextListener{
+    private static final String TAG = "LocationsListFragment";
 
     private static final int LOCATIONS_LOADER = 0;
 
@@ -97,6 +102,15 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SmileyFaceApplication application = (SmileyFaceApplication) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
@@ -186,17 +200,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
 //        }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface InteractionListener {
-        void onListClick(String toId);
+        void onListClick(String toName, String toId);
     }
 }

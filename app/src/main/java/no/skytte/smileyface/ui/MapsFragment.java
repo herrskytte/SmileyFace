@@ -12,14 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,10 +33,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import no.skytte.smileyface.R;
-import no.skytte.smileyface.Utilities;
+import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.storage.SmileyContract;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, LoaderManager.LoaderCallbacks<Cursor>{
+    private static final String TAG = "MapsFragment";
 
     private static final String ARG_TO_ID = "tilsynsobjekt_id";
 
@@ -93,6 +92,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Loader
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LOCATIONS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SmileyFaceApplication application = (SmileyFaceApplication) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

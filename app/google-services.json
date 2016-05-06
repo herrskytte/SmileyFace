@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "7441232401",
+    "project_id": "learned-catcher-130212"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7441232401:android:988f063eeb52fb69",
+        "android_client_info": {
+          "package_name": "no.skytte.smileyface"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeygPN5l2IaAyndTKyDWlZ9t1pCCQsdG8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-77391716-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

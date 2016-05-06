@@ -16,13 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
-import no.skytte.smileyface.Utilities;
+import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
@@ -33,6 +34,7 @@ import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
  * on handsets.
  */
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+    private static final String TAG = "DetailFragment";
 
     public static final String ARG_TO_ID = "tilsynsobjekt_id";
 
@@ -88,6 +90,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(LOCATIONS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SmileyFaceApplication application = (SmileyFaceApplication) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(TAG);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

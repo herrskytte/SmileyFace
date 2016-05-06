@@ -47,6 +47,7 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
 
         holder.mHeaderView.setText(name);
         holder.mSubView.setText(mContext.getString(R.string.list_address, address, city));
+        holder.mToName = name;
         holder.mToId = toId;
         holder.mDateView.setText(Utilities.formatDateToShortDate(date));
 
@@ -67,6 +68,7 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        String mToName;
         String mToId;
         @Bind(R.id.header_text) TextView mHeaderView;
         @Bind(R.id.sub_text) TextView mSubView;
@@ -81,7 +83,7 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
 
         @Override
         public void onClick(View v) {
-            mListener.onListClick(mToId);
+            mListener.onListClick(mToName, mToId);
         }
     }
 }

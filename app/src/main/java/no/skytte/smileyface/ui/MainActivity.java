@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import no.skytte.smileyface.R;
+import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.sync.SyncDataIntentService;
 
 public class MainActivity extends AppCompatActivity implements LocationsListFragment.InteractionListener {
@@ -35,9 +38,20 @@ public class MainActivity extends AppCompatActivity implements LocationsListFrag
     }
 
     @Override
-    public void onListClick(String toId) {
+    public void onListClick(String toName, String toId) {
+        logClickAnalytics(toName, toId);
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra(DetailFragment.ARG_TO_ID, toId);
         startActivity(i);
+    }
+
+    private void logClickAnalytics(String toName, String toId) {
+        SmileyFaceApplication application = (SmileyFaceApplication) getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Select location")
+                .setLabel(toName + " (" + toId + ")")
+                .build());
     }
 }
