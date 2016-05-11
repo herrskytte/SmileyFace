@@ -1,5 +1,7 @@
 package no.skytte.smileyface;
 
+import android.content.Context;
+import android.text.format.DateUtils;
 import android.widget.ImageView;
 
 import org.joda.time.DateTime;
@@ -41,7 +43,18 @@ public class Utilities {
         //return d.toString(sShortDateNoYearFormat);
     }
 
+    public static String formatDateToShortDate(String date, Context context) {
+        if(date == null || date.length() != 8){
+            return "";
+        }
+        DateTime d = sDateFormatter.parseDateTime(date);
+        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR;
+        String monthAndDayText = DateUtils.formatDateTime(context, d.getMillis(), flags);
+        return monthAndDayText;
+    }
+
     private static void createShortDateFormat() {
+
         //Get local date format
         String format = DateTimeFormat.patternForStyle("S-", Locale.getDefault());
 

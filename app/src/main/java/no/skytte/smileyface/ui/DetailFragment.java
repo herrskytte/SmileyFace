@@ -77,7 +77,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         AppCompatActivity activity = ((AppCompatActivity) getActivity());
         activity.setSupportActionBar(mToolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(activity.getParentActivityIntent() != null){
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);

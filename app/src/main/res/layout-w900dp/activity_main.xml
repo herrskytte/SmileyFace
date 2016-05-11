@@ -35,6 +35,8 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:title="@string/app_name"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <!-- This Space is only there to line the image up with the
@@ -71,7 +73,7 @@
         android:layout_centerInParent="true" />
 
     <fragment
-        android:id="@+id/fragment_forecast"
+        android:id="@+id/fragment_list"
         android:name="no.skytte.smileyface.ui.LocationsListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"

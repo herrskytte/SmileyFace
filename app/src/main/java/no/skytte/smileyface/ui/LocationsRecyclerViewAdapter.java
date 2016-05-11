@@ -49,7 +49,7 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
         holder.mSubView.setText(mContext.getString(R.string.list_address, address, city));
         holder.mToName = name;
         holder.mToId = toId;
-        holder.mDateView.setText(Utilities.formatDateToShortDate(date));
+        holder.mDateView.setText(Utilities.formatDateToShortDate(date, mContext));
 
         Utilities.setSmileyImage(holder.mIconView, grade);
 

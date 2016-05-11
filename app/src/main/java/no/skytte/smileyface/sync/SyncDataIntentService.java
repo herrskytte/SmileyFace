@@ -52,6 +52,7 @@ public class SyncDataIntentService extends IntentService {
             Response<List<InspectionDto>> response = call.execute();
             List<InspectionDto> models = response.body();
             long step1 = System.currentTimeMillis();
+            Log.e(TAG, "Inspections: " + models.size());
             Log.e(TAG, "Download and parse time (ms): " + (step1 - timeStart));
 
             // Get newest inspection
