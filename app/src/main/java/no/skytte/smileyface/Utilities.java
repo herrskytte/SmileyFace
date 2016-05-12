@@ -13,34 +13,38 @@ import java.util.Locale;
 public class Utilities {
 
     private static DateTimeFormatter sDateFormatter = DateTimeFormat.forPattern("ddMMyyyy");
-    private static String sShortDateNoYearFormat;
 
-    public static String formatDate(String date){
-        if(date == null || date.length() != 8){
+    public static long dateStringToMillis(String dateString){
+        if(dateString == null || dateString.length() != 8){
+            return -1;
+        }
+        return sDateFormatter.parseDateTime(dateString).getMillis();
+    }
+
+    public static String formatDate(long date){
+        if(date <= 0){
             return "";
         }
 
-        if(sShortDateNoYearFormat == null){
-            createShortDateFormat();
-        }
-
-        DateTime d = sDateFormatter.parseDateTime(date);
+        DateTime d = new DateTime(date);
         return DateTimeFormat.shortDate().print(d);
     }
 
-    public static String formatDateToShortDate(String date){
-        if(date == null || date.length() != 8){
-            return "";
+    public static String formatDateToShortDate(long date){
+        String dateWithYear = formatDate(date);
+        if(dateWithYear.equals("")){
+            return dateWithYear;
         }
 
-        if(sShortDateNoYearFormat == null){
-            createShortDateFormat();
+        if(dateWithYear.length() == 10){
+            return dateWithYear.substring(0, (dateWithYear.length() - 5));
         }
-
-        DateTime d = sDateFormatter.parseDateTime(date);
-        String dateWithYear = d.toString(DateTimeFormat.shortDate());
-        return dateWithYear.substring(0, (dateWithYear.length() - 5));
-        //return d.toString(sShortDateNoYearFormat);
+        else if(dateWithYear.length() == 8){
+            return dateWithYear.substring(0, (dateWithYear.length() - 3));
+        }
+        else {
+            return dateWithYear;
+        }
     }
 
     public static String formatDateToShortDate(String date, Context context) {

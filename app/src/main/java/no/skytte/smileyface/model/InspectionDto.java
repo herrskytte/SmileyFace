@@ -2,6 +2,7 @@ package no.skytte.smileyface.model;
 
 import android.content.ContentValues;
 
+import no.skytte.smileyface.Utilities;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
@@ -46,7 +47,7 @@ public class InspectionDto {
         ContentValues cv = new ContentValues();
         cv.put(InspectionEntry.COLUMN_INSP_ID, tilsynid);
         cv.put(InspectionEntry.COLUMN_TO_ID, tilsynsobjektid);
-        cv.put(InspectionEntry.COLUMN_DATE, dato);
+        cv.put(InspectionEntry.COLUMN_DATE, Utilities.dateStringToMillis(dato));
         cv.put(InspectionEntry.COLUMN_STATUS, status);
         cv.put(InspectionEntry.COLUMN_TYPE, tilsynsbesoektype);
         cv.put(InspectionEntry.COLUMN_GRADE, total_karakter);

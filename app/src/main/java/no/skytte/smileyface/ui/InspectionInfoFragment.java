@@ -164,7 +164,7 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
                 //Skip newest inspection as it is shown in detail
                 continue;
             }
-            String date = data.getString(data.getColumnIndex(InspectionEntry.COLUMN_DATE));
+            long date = data.getLong(data.getColumnIndex(InspectionEntry.COLUMN_DATE));
             int grade = data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE));
 
             if(inspectionNumber == 1){
@@ -197,7 +197,7 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
             String address = data.getString(data.getColumnIndex(LocationEntry.COLUMN_ADDRESS));
             String city = data.getString(data.getColumnIndex(LocationEntry.COLUMN_CITY));
             String postcode = data.getString(data.getColumnIndex(LocationEntry.COLUMN_POSTCODE));
-            String date = data.getString(data.getColumnIndex(InspectionEntry.COLUMN_DATE));
+            long date = data.getLong(data.getColumnIndex(InspectionEntry.COLUMN_DATE));
             int grade = data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE));
             int grade1 = data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE1));
             int grade2 = data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE2));

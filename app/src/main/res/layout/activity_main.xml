@@ -1,8 +1,61 @@
-
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_locations"
-    android:name="no.skytte.smileyface.ui.LocationsListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_locations_list" />
+    android:fitsSystemWindows="true"
+    tools:context=".ui.DetailActivity"
+    tools:ignore="MergeRootFrame">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar"
+            app:collapsedTitleTextAppearance="@style/InvisibleText"
+            app:expandedTitleTextAppearance="@style/Text.XXLarge.Inverse"
+            app:expandedTitleMarginStart="@dimen/keyline_2">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin"
+                android:layout_margin="@dimen/default_margin">
+                <android.support.v7.widget.SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"
+                    app:iconifiedByDefault="false"
+                    app:defaultQueryHint="@string/search_hint"
+                    android:elevation="8dp"/>
+            </android.support.v7.widget.CardView>
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <fragment
+        android:id="@+id/fragment_locations"
+        android:name="no.skytte.smileyface.ui.LocationsListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:layout="@layout/fragment_locations_list" />
+
+</android.support.design.widget.CoordinatorLayout>

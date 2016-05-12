@@ -36,7 +36,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     @Bind(R.id.recyclerview_locations) RecyclerView mRecyclerView;
     @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
     @Bind(R.id.recyclerview_loading) View mLoadingView;
-    @Bind(R.id.search_view) SearchView mSearchView;
+    //@Bind(R.id.search_view) SearchView mSearchView;
 
     private String mSearchQuery;
 
@@ -70,7 +70,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
         mAdapter = new LocationsRecyclerViewAdapter(getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
-        mSearchView.setOnQueryTextListener(this);
+        //mSearchView.setOnQueryTextListener(this);
 
         return view;
     }

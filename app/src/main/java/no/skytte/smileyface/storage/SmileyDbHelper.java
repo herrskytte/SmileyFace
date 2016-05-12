@@ -52,7 +52,7 @@ public class SmileyDbHelper extends SQLiteOpenHelper {
                 InspectionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 InspectionEntry.COLUMN_INSP_ID + " TEXT NOT NULL, " +
                 InspectionEntry.COLUMN_TO_ID + " TEXT NOT NULL, " +
-                InspectionEntry.COLUMN_DATE + " TEXT NOT NULL, " +
+                InspectionEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
                 InspectionEntry.COLUMN_STATUS + " INTEGER NOT NULL," +
                 InspectionEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
                 InspectionEntry.COLUMN_GRADE + " INTEGER NOT NULL, " +

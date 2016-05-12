@@ -12,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.skytte.smileyface.R;
 import no.skytte.smileyface.SmileyFaceApplication;
-import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
 /**
@@ -129,11 +127,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String name = data.getString(data.getColumnIndex(LocationEntry.COLUMN_NAME));
             mToolbar.setTitle(name);
 
-        }
-
-        while (data.moveToNext()){
-            Log.e("TEST date", data.getString(data.getColumnIndex(InspectionEntry.COLUMN_DATE)));
-            Log.e("TEST grade", "grade: " + data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE)));
         }
     }
 
