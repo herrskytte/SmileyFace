@@ -8,8 +8,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.Locale;
-
 public class Utilities {
 
     private static DateTimeFormatter sDateFormatter = DateTimeFormat.forPattern("ddMMyyyy");
@@ -57,30 +55,22 @@ public class Utilities {
         return monthAndDayText;
     }
 
-    private static void createShortDateFormat() {
-
-        //Get local date format
-        String format = DateTimeFormat.patternForStyle("S-", Locale.getDefault());
-
-        //Remove year part from beginning/end
-        format = format.replaceAll("y", "");
-
-        //sShortDateNoYearFormat = format.replaceAll("yy/", "");
-        sShortDateNoYearFormat = format.replaceAll("y", "");
+    public static void setSmileyImage(ImageView mIconView, int grade) {
+        mIconView.setImageResource(getSmileyResource(grade));
     }
 
-    public static void setSmileyImage(ImageView mIconView, int grade) {
+    public static int getSmileyResource(int grade){
         if(grade == 0 || grade == 1){
-            mIconView.setImageResource(R.drawable.ic_mood_happy);
+            return R.drawable.ic_mood_happy;
         }
         else if(grade == 2){
-            mIconView.setImageResource(R.drawable.ic_mood_neutral);
+            return R.drawable.ic_mood_neutral;
         }
         else if(grade == 3){
-            mIconView.setImageResource(R.drawable.ic_mood_sad);
+            return R.drawable.ic_mood_sad;
         }
         else {
-            mIconView.setImageResource(R.drawable.ic_mood_none);
+            return R.drawable.ic_mood_none;
         }
     }
 }

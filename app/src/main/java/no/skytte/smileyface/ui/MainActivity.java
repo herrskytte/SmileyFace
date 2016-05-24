@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements LocationsListFrag
         if(mTwoPane){
             DetailFragment fragment = DetailFragment.newInstance(toId);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_container, fragment)
+                    .replace(R.id.detail_container, fragment, "details_pane")
                     .commit();
         }
         else{

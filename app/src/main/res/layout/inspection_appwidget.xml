@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_width="220dp"
+    tools:layout_height="80dp"
+    android:background="@color/colorPrimary">
+    <TextView
+        style="@style/Text.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/latest_smiley"
+        android:background="@color/colorAccent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/smiley_icon"
+            android:layout_width="@dimen/smiley_size_small"
+            android:layout_height="@dimen/smiley_size_small"
+            android:src="@drawable/ic_mood_none"
+            android:contentDescription="@string/alt_inspection_smiley" />
+        <TextView
+            android:id="@+id/header_text"
+            style="@style/Text.Medium.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:ellipsize="end"
+            tools:text="Burger King Oslo City" />
+    </LinearLayout>
+</LinearLayout>
