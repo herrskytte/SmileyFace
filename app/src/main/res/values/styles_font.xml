@@ -5,8 +5,8 @@
     <!--++++++++++++++++++++++++++-->
     <!--the default font-->
     <!--<string name="fontFamily__roboto_regular">sans-serif</string>-->
-    <string name="fontFamily__roboto_light">sans-serif-light</string>
-    <string name="fontFamily__roboto_condensed">sans-serif-condensed</string>
+    <string name="fontFamily__roboto_light" translatable="false">sans-serif-light</string>
+    <string name="fontFamily__roboto_condensed" translatable="false">sans-serif-condensed</string>
 
     <!--+++++++++++++++++++++++++++++-->
     <!--added on API 17 (JBMR1 - 4.2)-->
@@ -16,7 +16,7 @@
     <!--+++++++++++++++++++++++++++-->
     <!--added on Lollipop (LL- 5.0)-->
     <!--+++++++++++++++++++++++++++-->
-    <string name="fontFamily__roboto_medium">sans-serif-medium</string>
+    <string name="fontFamily__roboto_medium" translatable="false">sans-serif-medium</string>
     <!--<string name="fontFamily__roboto_black">sans-serif-black</string>-->
     <!--<string name="fontFamily__roboto_condensed_light">sans-serif-condensed-light</string>-->
 
@@ -122,10 +122,6 @@
 
     <style name="Text.XXLarge.Inverse">
         <item name="android:textColor">@color/inverse_text_color</item>
-    </style>
-
-    <style name="Text.XXLarge.Bold">
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="InvisibleText">

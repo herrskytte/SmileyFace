@@ -60,11 +60,6 @@ public class SmileyDbHelper extends SQLiteOpenHelper {
                 InspectionEntry.COLUMN_GRADE2 + " INTEGER NOT NULL, " +
                 InspectionEntry.COLUMN_GRADE3 + " INTEGER NOT NULL, " +
                 InspectionEntry.COLUMN_GRADE4 + " INTEGER NOT NULL, " +
-
-                // Set up the to_id column as a foreign key to location table.
-                " FOREIGN KEY (" + InspectionEntry.COLUMN_TO_ID + ") REFERENCES " +
-                LocationEntry.TABLE_NAME + " (" + LocationEntry.COLUMN_TO_ID + "), " +
-
                 " UNIQUE (" + InspectionEntry.COLUMN_INSP_ID + ") ON CONFLICT REPLACE);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);

@@ -19,6 +19,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -262,5 +263,40 @@ public class SmileyProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
+    }
+
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values){
+        final SQLiteDatabase sqlDB = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        String table;
+        switch (match) {
+            case INSPECTION: {
+                table = InspectionEntry.TABLE_NAME;
+                break;
+            }
+            case LOCATION: {
+                table = LocationEntry.TABLE_NAME;
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        int numInserted = 0;
+        sqlDB.beginTransaction();
+        try {
+            for (ContentValues cv : values) {
+                long newID = sqlDB.insertOrThrow(table, null, cv);
+                if (newID <= 0) {
+                    throw new SQLException("Failed to insert row into " + uri);
+                }
+            }
+            sqlDB.setTransactionSuccessful();
+            getContext().getContentResolver().notifyChange(uri, null);
+            numInserted = values.length;
+        } finally {
+            sqlDB.endTransaction();
+        }
+        return numInserted;
     }
 }

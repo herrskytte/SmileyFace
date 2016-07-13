@@ -42,14 +42,14 @@ public class LocationsRecyclerViewAdapter extends RecyclerView.Adapter<Locations
         String address = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_ADDRESS));
         String city = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_CITY));
         String toId = mCursor.getString(mCursor.getColumnIndex(LocationEntry.COLUMN_TO_ID));
-        String date = mCursor.getString(mCursor.getColumnIndex(InspectionEntry.COLUMN_DATE));
+        long date = mCursor.getLong(mCursor.getColumnIndex(InspectionEntry.COLUMN_DATE));
         int grade = mCursor.getInt(mCursor.getColumnIndex(InspectionEntry.COLUMN_GRADE));
 
         holder.mHeaderView.setText(name);
         holder.mSubView.setText(mContext.getString(R.string.list_address, address, city));
         holder.mToName = name;
         holder.mToId = toId;
-        holder.mDateView.setText(Utilities.formatDateToShortDate(date, mContext));
+        holder.mDateView.setText(Utilities.formatDateToShortDate(date));
 
         Utilities.setSmileyImage(holder.mIconView, grade);
 

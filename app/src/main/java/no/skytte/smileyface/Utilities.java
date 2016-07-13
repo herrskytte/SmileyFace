@@ -1,7 +1,5 @@
 package no.skytte.smileyface;
 
-import android.content.Context;
-import android.text.format.DateUtils;
 import android.widget.ImageView;
 
 import org.joda.time.DateTime;
@@ -37,22 +35,12 @@ public class Utilities {
         if(dateWithYear.length() == 10){
             return dateWithYear.substring(0, (dateWithYear.length() - 5));
         }
-        else if(dateWithYear.length() == 8){
+        else if(dateWithYear.length() <= 8){
             return dateWithYear.substring(0, (dateWithYear.length() - 3));
         }
         else {
             return dateWithYear;
         }
-    }
-
-    public static String formatDateToShortDate(String date, Context context) {
-        if(date == null || date.length() != 8){
-            return "";
-        }
-        DateTime d = sDateFormatter.parseDateTime(date);
-        int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NO_YEAR;
-        String monthAndDayText = DateUtils.formatDateTime(context, d.getMillis(), flags);
-        return monthAndDayText;
     }
 
     public static void setSmileyImage(ImageView mIconView, int grade) {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmileFjes</string>
+    <string name="category1">Rutiner og ledelse:</string>
+    <string name="category2">Lokaler og utstyr:</string>
+    <string name="category3">Mat-håndtering og tilberedning:</string>
+    <string name="category4">Merking og sporbarhet:</string>
+    <string name="empty_locations_list">Fant ingen restauranter</string>
+    <string name="empty_map">Fant ikke denne adressen på kartet</string>
+    <string name="inspection_result_details">Tilsynsdetaljer:</string>
+    <string name="last_inspection_lbl">Siste tilsyn:</string>
+    <string name="loading_list"><![CDATA[Laster ned restauranter\nVennligst vent\n(Første gang >1 min)]]></string>
+    <string name="previous_results">Tidligere tilsyn:</string>
+    <string name="tab_title_info">Info</string>
+    <string name="tab_title_map">Kart</string>
+    <string name="title_activity_maps">Kart</string>
+    <string name="title_inspection_detail">Tilsynsdetaljer</string>
+</resources>

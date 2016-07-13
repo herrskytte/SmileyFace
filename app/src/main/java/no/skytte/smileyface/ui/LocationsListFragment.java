@@ -3,6 +3,8 @@ package no.skytte.smileyface.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -17,6 +19,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,7 +41,7 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     @Bind(R.id.recyclerview_locations) RecyclerView mRecyclerView;
     @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
     @Bind(R.id.recyclerview_loading) View mLoadingView;
-    //@Bind(R.id.search_view) SearchView mSearchView;
+    SearchView mSearchView;
 
     private String mSearchQuery;
 
@@ -70,8 +75,6 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
         mAdapter = new LocationsRecyclerViewAdapter(getContext(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
-        //mSearchView.setOnQueryTextListener(this);
-
         return view;
     }
 
@@ -89,6 +92,8 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        mSearchView = (SearchView) getActivity().findViewById(R.id.search_view);
+        mSearchView.setOnQueryTextListener(this);
         getLoaderManager().initLoader(LOCATIONS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -127,25 +132,40 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        //String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-
         String selection = null;
         String[] selectionArgs = null;
         if(!TextUtils.isEmpty(mSearchQuery)){
-            selection = LocationEntry.WHERE_SEARCH_QUERY;
-            selectionArgs = new String[]{
-                    "%" + mSearchQuery + "%",
-                    "%" + mSearchQuery + "%",
-                    "%" + mSearchQuery + "%",
-                    "%" + mSearchQuery + "%"
-            };
+            String[] queries = mSearchQuery.split(" ");
+            selection = createSelection(queries);
+            selectionArgs = createSelectionArgs(queries);
         }
         return new CursorLoader(getActivity(),
                 LocationEntry.CONTENT_URI,
                 LOCATION_COLUMNS,
                 selection,
                 selectionArgs,
-                InspectionEntry.COLUMN_INSP_ID + " DESC");
+                InspectionEntry.COLUMN_DATE + " DESC");
+    }
+
+    private String createSelection(String[] queries) {
+        String s = LocationEntry.WHERE_SEARCH_QUERY;
+        for(int i = 1; i < queries.length; i++){
+            s += " AND " + LocationEntry.WHERE_SEARCH_QUERY;
+        }
+        return s;
+    }
+
+    @NonNull
+    private String[] createSelectionArgs(String[] queries) {
+        List<String> sa = new ArrayList<>();
+        for(String s : queries){
+            sa.add("%" + s + "%");
+            sa.add("%" + s + "%");
+            sa.add("%" + s + "%");
+            sa.add("%" + s + "%");
+        }
+
+        return sa.toArray(new String[queries.length * 4]);
     }
 
     @Override

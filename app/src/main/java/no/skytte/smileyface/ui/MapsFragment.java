@@ -174,6 +174,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Loader
             mMap.addMarker(new MarkerOptions().position(marker).title(mCurrentLocation));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 17));
         }
+        else if(mMap == null){
+            mMapView.setVisibility(View.VISIBLE);
+            mFab.setVisibility(View.GONE);
+            mEmptyText.setVisibility(View.GONE);
+        }
         else{
             mMapView.setVisibility(View.GONE);
             mFab.setVisibility(View.GONE);

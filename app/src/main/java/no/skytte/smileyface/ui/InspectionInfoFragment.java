@@ -1,5 +1,6 @@
 package no.skytte.smileyface.ui;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,9 +98,9 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(LOCATION_LOADER, null, this);
-        getLoaderManager().initLoader(PREV_INSPECTIONS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
+        getLoaderManager().restartLoader(LOCATION_LOADER, null, this);
+        getLoaderManager().restartLoader(PREV_INSPECTIONS_LOADER, null, this);
     }
 
     @Override
@@ -157,13 +158,10 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
             mPrevView.setVisibility(View.GONE);
             return;
         }
-        int inspectionNumber = -1;
+        data.moveToFirst();
+        int inspectionNumber = 0;
         while (data.moveToNext()){
             inspectionNumber++;
-            if(inspectionNumber == 0){
-                //Skip newest inspection as it is shown in detail
-                continue;
-            }
             long date = data.getLong(data.getColumnIndex(InspectionEntry.COLUMN_DATE));
             int grade = data.getInt(data.getColumnIndex(InspectionEntry.COLUMN_GRADE));
 
@@ -192,7 +190,7 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
     }
 
     private void updateLocationViews(Cursor data) {
-        if(data.moveToNext()){
+        if(data.moveToFirst()){
             String name = data.getString(data.getColumnIndex(LocationEntry.COLUMN_NAME));
             String address = data.getString(data.getColumnIndex(LocationEntry.COLUMN_ADDRESS));
             String city = data.getString(data.getColumnIndex(LocationEntry.COLUMN_CITY));

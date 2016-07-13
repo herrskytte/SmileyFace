@@ -30,11 +30,11 @@ public class InspectionWidgetIntentService extends IntentService {
         Cursor data = getContentResolver().query(
                 SmileyContract.LocationEntry.CONTENT_URI,
                 new String[]{ SmileyContract.LocationEntry.COLUMN_NAME,
-                        SmileyContract.InspectionEntry.COLUMN_INSP_ID,
+                        SmileyContract.InspectionEntry.COLUMN_DATE,
                         SmileyContract.InspectionEntry.COLUMN_GRADE},
                 null,
                 null,
-                SmileyContract.InspectionEntry.COLUMN_INSP_ID + " DESC");
+                SmileyContract.InspectionEntry.COLUMN_DATE + " DESC");
         if (data == null) {
             return;
         }

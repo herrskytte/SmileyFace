@@ -62,10 +62,10 @@ public class SmileyContract {
         public static final String COLUMN_COORD_LONG = "coord_long";
 
         public static final String WHERE_SEARCH_QUERY =
-                LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_NAME + " LIKE ?" +
+                        " (" + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_NAME + " LIKE ?" +
                         " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_ADDRESS + " LIKE ?" +
                         " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_CITY + " LIKE ?" +
-                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_POSTCODE + " LIKE ?";
+                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_POSTCODE + " LIKE ?)";
 
         public static Uri buildLocationUri(String toId) {
             return CONTENT_URI.buildUpon().appendEncodedPath(toId).build();

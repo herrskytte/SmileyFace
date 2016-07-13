@@ -37,32 +37,28 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:title="@string/app_name"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            app:titleTextAppearance="@style/Text.XLarge.Inverse"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentInsetLeft="@dimen/activity_horizontal_margin"
+            app:contentInsetStart="@dimen/activity_horizontal_margin"/>
 
-        <!-- This Space is only there to line the image up with the
-             keyline correctly, since we cannot do addition of
-             dimensions/attributes otherwise -->
-        <android.support.v4.widget.Space
-            android:id="@+id/sunshineLogoAlign"
-            android:layout_width="40dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
-            android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/toolbar"/>
-
-        <TextView
+        <android.support.v7.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="?attr/listPreferredItemHeight"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:layout_below="@id/sunshineLogoAlign"
-            android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
-            android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
-            android:layout_toRightOf="@id/sunshineLogoAlign"
-            android:layout_toEndOf="@id/sunshineLogoAlign"
-            android:text="@string/app_name"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"
+                app:iconifiedByDefault="false"
+                app:defaultQueryHint="@string/search_hint"
+                android:elevation="8dp"/>
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
 
     <!-- This is used as a strut to create two columns in our RelativeLayout -->

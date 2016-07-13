@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import no.skytte.smileyface.R;
 import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.sync.SyncDataIntentService;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements LocationsListFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        JodaTimeAndroid.init(this);
 
         SyncDataIntentService.startFullSync(this);
 

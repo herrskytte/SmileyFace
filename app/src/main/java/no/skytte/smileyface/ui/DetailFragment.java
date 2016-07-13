@@ -68,7 +68,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mCurrentToId = getArguments().getString(ARG_TO_ID);
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, rootView);
@@ -79,7 +78,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabs.setupWithViewPager(mViewPager);
 
@@ -123,7 +122,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             return;
         }
 
-        if(data.moveToNext()){
+        if(data.moveToFirst()){
             String name = data.getString(data.getColumnIndex(LocationEntry.COLUMN_NAME));
             mToolbar.setTitle(name);
 
