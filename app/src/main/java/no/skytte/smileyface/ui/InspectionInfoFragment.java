@@ -155,9 +155,9 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
     private void updatePreviousInspections(Cursor data) {
         Log.i("InpsectionInfo", "Total inspections: " + data.getCount());
         if(data.getCount() < 2){
-            mPrevView.setVisibility(View.GONE);
             return;
         }
+        mPrevView.setVisibility(View.VISIBLE);
         data.moveToFirst();
         int inspectionNumber = 0;
         while (data.moveToNext()){
@@ -183,9 +183,6 @@ public class InspectionInfoFragment extends Fragment implements LoaderManager.Lo
                 mPrev3Date.setText(Utilities.formatDateToShortDate(date));
                 Utilities.setSmileyImage(mSmileyPrev3, grade);
             }
-
-
-
         }
     }
 

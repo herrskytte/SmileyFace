@@ -15,12 +15,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -30,7 +33,7 @@ import no.skytte.smileyface.SmileyFaceApplication;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
-public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,  SearchView.OnQueryTextListener{
+public class LocationsListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener{
     private static final String TAG = "LocationsListFragment";
 
     private static final int LOCATIONS_LOADER = 0;
@@ -42,8 +45,10 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     @Bind(R.id.recyclerview_locations_empty) TextView mEmptyView;
     @Bind(R.id.recyclerview_loading) View mLoadingView;
     SearchView mSearchView;
+    Spinner mSmileySpinner;
 
     private String mSearchQuery;
+    private int mSearchQuerySmiley = 0;
 
     private static final String[] LOCATION_COLUMNS = {
             LocationEntry.TABLE_NAME + "." + LocationEntry._ID,
@@ -79,6 +84,22 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        mSearchView = (SearchView) getActivity().findViewById(R.id.search_view);
+        mSearchView.setOnQueryTextListener(this);
+
+        mSmileySpinner = (Spinner) getActivity().findViewById(R.id.smiley_spinner);
+        mSmileySpinner.setOnItemSelectedListener(this);
+        SimpleImageArrayAdapter adapter = new SimpleImageArrayAdapter(getContext(),
+                new Integer[]{R.drawable.ic_mood_none, R.drawable.ic_mood_happy, R.drawable.ic_mood_neutral, R.drawable.ic_mood_sad},
+                new Integer[]{R.string.smileydesc_none, R.string.smileydesc_happy, R.string.smileydesc_neutral, R.string.smileydesc_sad});
+        mSmileySpinner.setAdapter(adapter);
+
+        getLoaderManager().initLoader(LOCATIONS_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
@@ -91,11 +112,16 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        mSearchView = (SearchView) getActivity().findViewById(R.id.search_view);
-        mSearchView.setOnQueryTextListener(this);
-        getLoaderManager().initLoader(LOCATIONS_LOADER, null, this);
-        super.onActivityCreated(savedInstanceState);
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        if(mSearchQuerySmiley != position){
+            mSearchQuerySmiley = position;
+            getLoaderManager().restartLoader(LOCATIONS_LOADER, null, this);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 
     @Override
@@ -139,12 +165,49 @@ public class LocationsListFragment extends Fragment implements LoaderManager.Loa
             selection = createSelection(queries);
             selectionArgs = createSelectionArgs(queries);
         }
+        if(mSearchQuerySmiley > 0){
+            selection = addSmileySelection(selection);
+            selectionArgs = addSmileySelectionArgs(selectionArgs);
+        }
         return new CursorLoader(getActivity(),
                 LocationEntry.CONTENT_URI,
                 LOCATION_COLUMNS,
                 selection,
                 selectionArgs,
                 InspectionEntry.COLUMN_DATE + " DESC");
+    }
+
+    private String addSmileySelection(String selection) {
+        if(selection != null){
+            selection += " AND ";
+        }
+        else {
+            selection = "";
+        }
+
+        if(mSearchQuerySmiley == 1){
+            selection += InspectionEntry.WHERE_GRADE_QUERY_2;
+        }
+        else if(mSearchQuerySmiley == 2 || mSearchQuerySmiley == 3){
+            selection += InspectionEntry.WHERE_GRADE_QUERY_1;
+        }
+        return selection;
+    }
+
+    private String[] addSmileySelectionArgs(String[] selectionArgs) {
+        List<String> args = selectionArgs == null ? new ArrayList<String>() : new ArrayList<>(Arrays.asList(selectionArgs));
+        if(mSearchQuerySmiley == 1){
+            args.add("0");
+            args.add("1");
+
+        }
+        else if(mSearchQuerySmiley == 2){
+            args.add("2");
+        }
+        else if(mSearchQuerySmiley == 3){
+            args.add("3");
+        }
+        return args.toArray(new String[args.size()]);
     }
 
     private String createSelection(String[] queries) {

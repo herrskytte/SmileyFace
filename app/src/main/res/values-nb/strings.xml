@@ -15,4 +15,11 @@
     <string name="tab_title_map">Kart</string>
     <string name="title_activity_maps">Kart</string>
     <string name="title_inspection_detail">Tilsynsdetaljer</string>
+    <string name="alt_inspection_smiley">Smilefjes</string>
+    <string name="latest_smiley">Nyeste tilsyn</string>
+    <string name="search_hint">Søk navn, adresse eller sted</string>
+    <string name="smileydesc_none">Vis alle</string>
+    <string name="smileydesc_happy">Gode resultater på tilsyn</string>
+    <string name="smileydesc_neutral">Noe må rettes</string>
+    <string name="smileydesc_sad">Alvorlige mangler er funnet</string>
 </resources>

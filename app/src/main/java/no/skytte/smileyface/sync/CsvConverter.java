@@ -1,5 +1,7 @@
 package no.skytte.smileyface.sync;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -31,8 +33,13 @@ public class CsvConverter<T> implements Converter<ResponseBody, List<T>> {
         //String[] titles = createTitlesSubset();
         List<Field> fields = processFirstLine(titles);
         while ((nextLine = csvreader.readNext()) != null) {
-            T model = createModel(nextLine, fields);
-            result.add(model);
+            if(nextLine.length == 25){
+                T model = createModel(nextLine, fields);
+                result.add(model);
+            }
+            else {
+                Log.e("CSVCONVERTER", "Error in open data. Number of fields: " + nextLine.length);
+            }
         }
         return result;
     }
@@ -72,6 +79,8 @@ public class CsvConverter<T> implements Converter<ResponseBody, List<T>> {
             throw new IOException(e);
         } catch (IllegalAccessException e) {
             throw new IOException(e);
+        } catch (Exception e) {
+            throw e;
         }
     }
 
@@ -102,7 +111,11 @@ public class CsvConverter<T> implements Converter<ResponseBody, List<T>> {
             if("".equals(value)){
                 value = "-1";
             }
-            return (K) Integer.valueOf(value);
+            try{
+                return (K) Integer.valueOf(value);
+            }catch (NumberFormatException nfe){
+                return (K) Integer.valueOf(-1);
+            }
         } else  if(isBoolean(desiredClass)) {
             return (K) Boolean.valueOf(value);
         } else  if(isDouble(desiredClass)) {

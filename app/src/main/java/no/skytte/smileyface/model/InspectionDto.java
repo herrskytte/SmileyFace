@@ -6,6 +6,19 @@ import no.skytte.smileyface.Utilities;
 import no.skytte.smileyface.storage.SmileyContract.InspectionEntry;
 import no.skytte.smileyface.storage.SmileyContract.LocationEntry;
 
+//tilsynsobjektid;
+// orgnummer;
+// navn;
+// adrlinje1;adrlinje2;
+// postnr;
+// poststed;
+// tilsynid;
+// sakref;
+// status;
+// dato;
+// total_karakter;
+// tilsynsbesoektype;
+// tema1_no;tema1_nn;karakter1;tema2_no;tema2_nn;karakter2;tema3_no;tema3_nn;karakter3;tema4_no;tema4_nn;karakter4
 public class InspectionDto {
     public String tilsynsobjektid;
     public String orgnummer;

@@ -62,10 +62,10 @@ public class SmileyContract {
         public static final String COLUMN_COORD_LONG = "coord_long";
 
         public static final String WHERE_SEARCH_QUERY =
-                        " (" + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_NAME + " LIKE ?" +
-                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_ADDRESS + " LIKE ?" +
-                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_CITY + " LIKE ?" +
-                        " OR " + LocationEntry.TABLE_NAME + "." + LocationEntry.COLUMN_POSTCODE + " LIKE ?)";
+                        " (" + TABLE_NAME + "." + COLUMN_NAME + " LIKE ?" +
+                        " OR " + TABLE_NAME + "." + COLUMN_ADDRESS + " LIKE ?" +
+                        " OR " + TABLE_NAME + "." + COLUMN_CITY + " LIKE ?" +
+                        " OR " + TABLE_NAME + "." + COLUMN_POSTCODE + " LIKE ?)";
 
         public static Uri buildLocationUri(String toId) {
             return CONTENT_URI.buildUpon().appendEncodedPath(toId).build();
@@ -99,6 +99,12 @@ public class SmileyContract {
         public static final String COLUMN_GRADE2 = "grade2";
         public static final String COLUMN_GRADE3 = "grade3";
         public static final String COLUMN_GRADE4 = "grade4";
+
+        public static final String WHERE_GRADE_QUERY_1 =
+                        " (" + TABLE_NAME + "." + COLUMN_GRADE + " = ?)";
+
+        public static final String WHERE_GRADE_QUERY_2 =
+                        " (" + TABLE_NAME + "." + COLUMN_GRADE + " = ?" + " OR " + TABLE_NAME + "." + COLUMN_GRADE + " = ?)";
 
         public static Uri buildInspectionUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

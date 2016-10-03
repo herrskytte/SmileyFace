@@ -11,14 +11,14 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:fitsSystemWindows="true">
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="@string/app_name"
             app:toolbarId="@+id/toolbar"
             app:collapsedTitleTextAppearance="@style/InvisibleText"
             app:expandedTitleTextAppearance="@style/Text.XXLarge.Inverse"
@@ -27,26 +27,45 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-            <android.support.v7.widget.CardView
+                app:layout_collapseMode="pin" />
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
                 android:layout_margin="@dimen/default_margin">
-                <android.support.v7.widget.SearchView
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.CardView
+                    style="@style/CardView.Light"
                     android:layout_height="wrap_content"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     app:layout_collapseMode="pin"
-                    app:iconifiedByDefault="false"
-                    app:defaultQueryHint="@string/search_hint"
-                    android:elevation="8dp"/>
-            </android.support.v7.widget.CardView>
-
-
+                    android:layout_marginRight="@dimen/small_margin"
+                    app:cardElevation="8dp">
+                    <android.support.v7.widget.SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="pin"
+                        app:iconifiedByDefault="false"
+                        app:defaultQueryHint="@string/search_hint"
+                        />
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    style="@style/CardView.Light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="pin"
+                    app:cardElevation="8dp">
+                    <Spinner
+                        android:id="@+id/smiley_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/small_margin"
+                        android:background="?attr/selectableItemBackground"
+                        tools:listitem="@layout/list_item_smiley"
+                        />
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
